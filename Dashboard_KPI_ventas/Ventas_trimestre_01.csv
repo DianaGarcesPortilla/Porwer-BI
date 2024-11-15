@@ -1,0 +1,60 @@
+﻿ID_producto;categoria_producto;nombre_producto;precio_producto;ID_factura;Cantidad;Total;Metodo_pago;Fecha_factura;ID_cliente;Ciudad;Gastos_marketing_OG
+101000001;Animales ;Bolsa diseño rana;50000;20230000005;10;500000;Tarjeta debito ;10/01/2023;1000004;Bucaramanga ;64865
+101000001;Animales ;Bolsa diseño rana;50000;20230000007;20;1000000;Tarjeta debito ;12/01/2023;1000006;Bogotá;116667
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000002;8;400000;Tarjeta credito;5/01/2023;1000001;Bucaramanga ;51892
+101000002;Animales ;Bolsa diseño orangutanes;50000;20230000013;9;450000;Tarjeta credito;20/01/2023;1000012;Cali;56000
+101000001;Animales ;Bolsa diseño rana;50000;20230000001;15;750000;Tarjeta credito;1/01/2023;1000002;Bucaramanga ;97297
+101000002;Animales ;Bolsa diseño orangutanes;50000;20230000012;7;350000;Tarjeta credito;18/01/2023;1000011;Cali;43556
+101000001;Animales ;Bolsa diseño rana;50000;20230000008;20;1000000;Tarjeta credito;13/01/2023;1000007;Bogotá;116667
+106000001;Musica;Bolsa diseño bateria;50000;20230000003;4;200000;Tarjeta debito ;6/01/2023;1000003;Bucaramanga ;25946
+102000001;Danza;Bolsa diseño classics;50000;20230000016;6;300000;Tarjeta debito ;23/01/2023;1000004;Cali;37333
+101000003;Animales ;Bolsa diseño serpiente;50000;20230000015;25;1250000;Tarjeta credito;22/01/2023;1000014;Cali;155556
+101000002;Animales ;Bolsa diseño orangutanes;50000;20230000011;13;650000;Tarjeta debito ;17/01/2023;1000010;Bogotá;75833
+101000001;Animales ;Bolsa diseño rana;50000;20230000009;20;1000000;Tarjeta credito;14/01/2023;1000008;Bogotá;116667
+106000002;Musica;Bolsa diseño guitarras;50000;20230000003;5;250000;Tarjeta debito ;7/01/2023;1000003;Bucaramanga ;32432
+103000001;Deportes;Bolsa diseño swin;50000;20230000001;4;200000;Tarjeta credito;3/01/2023;1000002;Bucaramanga ;25946
+102000001;Danza;Bolsa diseño classics;50000;20230000017;6;300000;Tarjeta debito ;25/01/2023;1000015;Cali;37333
+102000001;Danza;Bolsa diseño classics;50000;20230000018;28;1400000;Tarjeta debito ;27/01/2023;1000016;Cali;174222
+101000001;Animales ;Bolsa diseño rana;50000;20230000004;18;900000;Tarjeta debito ;9/01/2023;1000004;Bucaramanga ;116757
+101000001;Animales ;Bolsa diseño rana;50000;20230000006;3;150000;Tarjeta debito ;11/01/2023;1000005;Bogotá;17500
+101000001;Animales ;Bolsa diseño rana;50000;20230000010;20;1000000;Tarjeta debito ;16/01/2023;1000009;Bogotá;116667
+101000002;Animales ;Bolsa diseño orangutanes;50000;20230000002;10;500000;Tarjeta credito;4/01/2023;1000001;Bucaramanga ;64865
+101000003;Animales ;Bolsa diseño serpiente;50000;20230000014;9;450000;Tarjeta credito;21/01/2023;1000013;Cali;56000
+104000001;Flora-Paisajes;Bolsa diseño florero;50000;20230000024;13;650000;Tarjeta debito ;12/02/2023;1000021;Bogotá;48319
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000031;16;800000;Tarjeta debito ;23/02/2023;1000028;Cali;224000
+104000001;Flora-Paisajes;Bolsa diseño florero;50000;20230000021;9;450000;Tarjeta debito ;4/02/2023;1000004;Bucaramanga ;98182
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000032;5;250000;Tarjeta debito ;25/02/2023;1000029;Cali;70000
+104000001;Flora-Paisajes;Bolsa diseño florero;50000;20230000023;6;300000;Tarjeta debito ;9/02/2023;1000020;Bucaramanga ;65455
+104000002;Flora-Paisajes;Bolsa diseño sunshine;50000;20230000030;4;200000;Tarjeta debito ;22/02/2023;1000027;Cali;56000
+103000002;Deportes;Bolsa diseño basket;50000;20230000020;3;150000;Tarjeta debito ;3/02/2023;1000018;Bucaramanga ;32727
+104000002;Flora-Paisajes;Bolsa diseño sunshine;50000;20230000028;10;500000;Tarjeta debito ;18/02/2023;1000025;Bogotá;37168
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000033;2;100000;Tarjeta debito ;26/02/2023;1000030;Cali;28000
+104000001;Flora-Paisajes;Bolsa diseño florero;50000;20230000022;10;500000;Tarjeta debito ;5/02/2023;1000019;Bucaramanga ;109091
+102000002;Danza;Bolsa diseño bailamos;50000;20230000019;5;250000;Tarjeta debito ;1/02/2023;1000017;Bucaramanga ;54545
+104000001;Flora-Paisajes;Bolsa diseño florero;50000;20230000025;34;1700000;Tarjeta debito ;13/02/2023;1000022;Bogotá;126372
+104000001;Flora-Paisajes;Bolsa diseño florero;50000;20230000026;8;400000;Tarjeta debito ;16/02/2023;1000023;Bogotá;29735
+104000002;Flora-Paisajes;Bolsa diseño sunshine;50000;20230000029;3;150000;Tarjeta debito ;19/02/2023;1000026;Cali;42000
+104000002;Flora-Paisajes;Bolsa diseño sunshine;50000;20230000027;48;2400000;Tarjeta debito ;17/02/2023;1000024;Bogotá;178407
+105000001;Letras-Numeros;Bolsa diseño caracolas;50000;20230000041;8;400000;Tarjeta credito;12/03/2023;1000038;Bucaramanga;22857
+106000002;Musica;Bolsa diseño guitarras;50000;20230000050;12;600000;Tarjeta credito;23/03/2023;1000047;Bucaramanga;34286
+106000002;Musica;Bolsa diseño guitarras;50000;20230000049;5;250000;Tarjeta credito;22/03/2023;1000046;Cali;20588
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000035;17;850000;Tarjeta debito ;3/03/2023;1000032;Bucaramanga;48571
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000055;22;1100000;Tarjeta credito;29/03/2023;1000052;Cali;90588
+106000002;Musica;Bolsa diseño guitarras;50000;20230000054;10;500000;Tarjeta credito;28/03/2023;1000051;Cali;41176
+106000002;Musica;Bolsa diseño guitarras;50000;20230000052;5;250000;Tarjeta credito;26/03/2023;1000049;Cali;20588
+106000002;Musica;Bolsa diseño guitarras;50000;20230000047;7;350000;Tarjeta credito;18/03/2023;1000044;Bogotá;18284
+106000002;Musica;Bolsa diseño guitarras;50000;20230000046;60;3000000;Tarjeta credito;17/03/2023;1000043;Bogotá;156716
+106000001;Musica;Bolsa diseño bateria;50000;20230000043;5;250000;Tarjeta credito;14/03/2023;1000040;Bogotá;13060
+106000002;Musica;Bolsa diseño guitarras;50000;20230000048;5;250000;Tarjeta credito;19/03/2023;1000045;Bogotá;13060
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000040;9;450000;Tarjeta credito;11/03/2023;1000037;Bucaramanga;25714
+106000002;Musica;Bolsa diseño guitarras;50000;20230000051;40;2000000;Tarjeta credito;25/03/2023;1000048;Cali;164706
+106000002;Musica;Bolsa diseño guitarras;50000;20230000053;3;150000;Tarjeta credito;27/03/2023;1000050;Cali;12353
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000034;16;800000;Tarjeta debito ;1/03/2023;1000031;Bucaramanga;45714
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000039;2;100000;Tarjeta credito;10/03/2023;1000036;Bucaramanga;5714
+105000002;Letras-Numeros;Bolsa diseño epocas;50000;20230000042;8;400000;Tarjeta credito;13/03/2023;1000039;Bucaramanga;22857
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000037;17;850000;Tarjeta credito;5/03/2023;1000034;Bucaramanga;48571
+106000001;Musica;Bolsa diseño bateria;50000;20230000044;50;2500000;Tarjeta credito;15/03/2023;1000041;Bogotá;130597
+106000001;Musica;Bolsa diseño bateria;50000;20230000045;7;350000;Tarjeta credito;16/03/2023;1000042;Bogotá;18284
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000036;10;500000;Tarjeta credito;4/03/2023;1000033;Bucaramanga;28571
+104000003;Flora-Paisajes;Bolsa diseño roja;50000;20230000038;6;300000;Tarjeta credito;9/03/2023;1000035;Bucaramanga;17143
+;;;;;;;;;;;

@@ -1,0 +1,491 @@
+---
+title: "E-commerce"
+
+output: 
+  flexdashboard::flex_dashboard:
+  orientation: rows
+---
+  
+```{r setup, include=FALSE}
+#-----------------------------------------------#
+#------------------ Instalar librerías ---------#
+#-----------------------------------------------#
+
+#install.packages("readr")
+#install.packages("dplyr")
+#install.packages("moments")
+#install.packages("ggplot2")
+#install.packages("plotly")
+#install.packages("tidyr")
+#install.packages("stringr")
+#install.packages("naniar")
+#install.packages("skimr")
+#install.packages("agricolae")
+#install.packages("corrplot")
+#install.packages("DT")
+#install.packages("leaflet")
+#install.packages("lubridate")
+#install.packages("flexdashboard")
+#install.packages("modeest")
+
+
+#----------------------------------------------------------------------------
+# librerias
+
+library(readr)
+library(dplyr)
+library(moments)
+library(ggplot2)
+library(plotly)
+library(tidyr)
+library(stringr)
+library(naniar)
+library(skimr)
+library(agricolae)
+library(corrplot)
+library(leaflet)
+library(lubridate)
+library(hrbrthemes)
+library(flexdashboard)
+library(modeest)
+
+#-----------------------------------------------------------------------------
+#Importar datos
+
+ecommerce = read_delim("Ecommerce.txt")
+#-----------------------------------------------------------------------------
+#Preparación de datos 
+
+str(ecommerce)
+
+#Cambiar el nombre de las variables
+ecommerce <- ecommerce %>%  
+             rename( Avg_Session_Length = "Avg. Session Length",
+                     Time_on_App  = "Time on App",
+                     Time_on_Website   = "Time on Website",
+                     Length_of_Membership = "Length of Membership",
+                     Yearly_Amount_Spent = "Yearly Amount Spent"
+                    )
+
+#Duración promedio de la sesión agrupada
+
+ecommerce$AvgSessionGroup <- cut(ecommerce$Avg_Session_Length, breaks = c(29,32,33,34,36.2),
+                                include.lowest = T, right = F )
+
+#Convertir la tabla de frecuencias relativas en dataframe
+
+fre_ab <- table(ecommerce$AvgSessionGroup)
+
+fre_relativa <- prop.table(fre_ab)*100
+
+
+df <- as.data.frame(fre_relativa)
+df <- df %>% rename (Duración = Var1, Porcentaje = Freq)
+```
+
+Estadísticos descriptivos 
+=====================================
+
+Column
+-------------------------------------
+
+### Tabla 1.Duración promedio de sesión en ecommerce (min)- Avg_Session_Length
+
+```{r}  
+descriptivos_session <- sapply(ecommerce["Avg_Session_Length"], function(x) {
+                               c(Media = mean(x), Desv_estandar = sd(x),
+                                 Cuartil =quantile(x), 
+                                 Asimetria= skewness(x), Curtosis= kurtosis(x))
+                            })
+descriptivos_session
+```
+
+### Tabla 4. Gasto anual (dólares) -Yearly_Amount_Spent
+
+```{r}
+descriptivos_spent <- sapply(ecommerce["Yearly_Amount_Spent"], function(x) {
+                             c(Media = mean(x), Desv_estandar = sd(x), Cuartil = quantile(x),
+                             Asimetria= skewness(x), Curtosis= kurtosis(x))
+})
+
+descriptivos_spent
+
+```
+
+Column
+-------------------------------------
+
+### Tabla 2. Duración promedio de la sesión en la web (min)- Time_on_Website
+
+```{r}
+descriptivos_web <- sapply(ecommerce["Time_on_Website"], function(x) {
+                          c(Media = mean(x), Desv_estandar = sd(x), Cuartil = quantile(x), 
+                          Asimetria= skewness(x), Curtosis= kurtosis(x))
+})
+
+descriptivos_web
+```
+
+### Tabla 5. Años de la membresía -Length_of_Membership
+
+```{r} 
+
+descriptivos_membership <- sapply(ecommerce["Length_of_Membership"], function(x) {
+                            c(Media = mean(x), Desv_estandar = sd(x), Cuartil = quantile(x), 
+                            Asimetria= skewness(x), Curtosis= kurtosis(x))
+})
+
+descriptivos_membership
+```
+
+Column
+-------------------------------------
+
+### Tabla 3. Duración promedio de sesión en la app (min)- Time_on_App
+
+```{r} 
+descriptivos_app <- sapply(ecommerce["Time_on_App"], function(x) {
+                    c(Media = mean(x), Desv_estandar = sd(x), Cuartil = quantile(x), 
+                    Asimetria= skewness(x), Curtosis= kurtosis(x))
+                    })
+
+descriptivos_app
+```
+
+### Interpretación
+
+* Un usuario de la e-commerce pasa en promedio 33 min navegando en ella (tabla 1). 
+Particularmente, pasa un mayor tiempo en la web (37 min) que en la app (12 min) 
+(tabla 2 y 3). 
+
+  Las distribuciones del tiempo promedio de la sesión, el tiempo de permanencia
+  en la web y en la app tienen distribuciones normales, debido a que son simétricas            (asimetria =0) y mesocúrticas (curtosis prácticamente en 0).
+  
+* Un comprador gasta anualmente en promedio 499 dólares con una desviación estándar
+de 79 dólares (tabla 4). 
+
+  La distribución del gasto es simétrica (asimetría = 0.03) y algo leptocúrtica (curtosis =    0.46).
+
+* Los usuarios afiliados a la e-commerce llevan en promedio 3.5 años como miembros
+con una desviación estándar de 1 año (Tabla 5).
+
+  La distribución de los años de membresía presenta un leve sesgo a la derecha 
+  (asimetría = -0.10) y un poco más puntiaguda que una distribución normal (curtosis = 0.35).
+  
+  
+Gráficos univariados y bivariados 
+=====================================
+
+Column
+-------------------------------------
+### Gráfico 1. Hist. de la duración promedio de sesión (min)- Avg_Session_Length
+
+```{r} 
+
+plot_dprom <- ggplot(data = ecommerce, aes(x = Avg_Session_Length))  +
+              geom_histogram(alpha = 0.7, 
+                             color = "black",
+                             fill	 = "blue",
+                             bins	 = nclass.Sturges(ecommerce$Avg_Session_Length))	+
+              labs(x	= " Duración (min)",
+                   y	= "Frecuencia") +
+              theme_bw()
+
+ggplotly(plot_dprom)
+```
+
+### Gráfico 4. Histograma Gasto anual (dólares) -Yearly_Amount_Spent
+
+```{r} 
+
+gasto_ano  = ggplot(data = ecommerce, aes(x = Yearly_Amount_Spent))  +
+               geom_histogram(alpha = 0.7, 
+                              color = "black", 
+                              fill  = "blue",
+                              bins  = nclass.Sturges(ecommerce$Yearly_Amount_Spent))	+
+               labs(x	= "Gasto anual (dólares)", y	= "Frecuencia") +
+               theme_bw()
+
+ggplotly(gasto_ano)
+```
+
+Column
+-------------------------------------
+### Gráfico 2. Histograma de la duración de sesión en web (min)- Time_on_Website
+
+```{r} 
+
+duracion_web  = ggplot(data = ecommerce, aes(x = Time_on_Website))  +
+                geom_histogram(alpha = 0.7, 
+                               color = "black", 
+                               fill	 = "blue",
+                               bins	 = nclass.Sturges(ecommerce$Time_on_Website))	+
+                labs(x	= " Duración (min)", 
+                     y	= "Frecuencia") +
+                theme_bw()
+                
+ggplotly(duracion_web)
+```
+
+### Gráficos 5. Histograma años de la membresía -Length_of_Membership
+
+```{r} 
+
+anos_membresia  = ggplot(data = ecommerce, aes(x = Length_of_Membership))  +
+                  geom_histogram(alpha = 0.7, 
+                                 color = "black", 
+                                 fill	 = "blue",
+                                 bins	 = nclass.Sturges(ecommerce$Length_of_Membership))	+
+                                 labs(x	= "Años", 
+                                      y	= "Frecuencia") +
+                                 theme_bw()
+ggplotly(anos_membresia)
+```
+
+
+Column
+-------------------------------------
+### Gráfico 3. Hist. de la duración de sesión en la app (min)- Time_on_App
+
+```{r} 
+
+duracion_app  = ggplot(data = ecommerce, aes(x = Time_on_App))  +
+                geom_histogram(alpha = 0.7, 
+                               color = "black", 
+                               fill	 = "blue",
+                               bins	 = nclass.Sturges(ecommerce$Time_on_App))	+
+                labs(x	= " Duración (min)", 
+                     y	= "Frecuencia") +
+                theme_bw()
+
+ggplotly(duracion_app)
+```
+
+### Interpretación
+
+* La distribución de la duración promedio de la sesión en el e-commerce, en el sitio web y en la app es normal (gráfico 1, 2 y 3). 
+
+  Por otra parte, la distribución del gasto anual en compras online es simetrica respecto a    su media (449.3 dólares) y es un poco más puntiaguda que las distribuciones de las           duraciones de sesión (gráfico 4).
+  
+  En relación a la distribución de los años de la membresía, se presenta un leve sesgo a la    derecha, es decir hay cierta concentración de los años de membresía hacia la derecha de la   media (3.5 años) (gráfico 5).
+
+* Se observa una asociación lineal creciente entre los años de la membresía y el gasto anual   (gráfico 9). Esta misma asociación se presenta entre la duración de sesión en la app y el    gasto anual (gráfico 8).
+
+  En cambio entre la duración de la sesión con el gasto anual hay cierta tendencia creciente   pero no es muy clara (gráfica 6) y se puede decir que no hay asociación entre la duración    del de la sesion en el sitio web y el gasto (gráfico 7). 
+
+  
+Column
+-------------------------------------
+### Gráfico 6. Dispersión gasto anual vs duración sesión
+
+```{r} 
+spent_session <- ggplot(ecommerce, aes(x = Avg_Session_Length,
+                                       y = Yearly_Amount_Spent)) +
+                 geom_point(color = " slategray4 ",alpha =0.7) +
+                 labs(y = "Yearly_Amount_Spent", x = "Avg_Session_Length") +
+                 theme_bw ()
+
+ggplotly(spent_session)
+```
+
+### Gráfico 8. Dispersión gasto anual vs duración sesión en app
+
+```{r} 
+
+spent_app <- ggplot(ecommerce, aes(x = Time_on_App ,
+                                   y = Yearly_Amount_Spent)) +
+             geom_point(color = " slategray4 ",alpha =0.7) +
+             labs(y = "Yearly_Amount_Spent", x = "Time_on_App") + 
+theme_bw ()
+
+ggplotly(spent_app)
+```
+
+
+Column
+-------------------------------------
+
+### Gráfico 7. Dispersión gasto anual vs duración sesión en web
+
+```{r} 
+
+spent_web <- ggplot(ecommerce, aes(x = Time_on_Website ,
+                                   y = Yearly_Amount_Spent)) +
+             geom_point(color = " slategray4 ",alpha =0.7) +
+             labs(y = "Yearly_Amount_Spent", x = "Time_on_Website") +
+theme_bw ()
+
+ggplotly(spent_web)
+```
+
+### Gráfico 9. Dispersión gasto anual vs años de la membresia
+
+```{r} 
+
+spent_member <- ggplot(ecommerce, aes(x = Length_of_Membership,
+                                   y = Yearly_Amount_Spent)) +
+                geom_point(color = " slategray4 ",alpha =0.7) +
+                labs(y = "Yearly_Amount_Spent", x = "Length_of_Membership") + 
+theme_bw ()
+
+ggplotly(spent_member)
+```
+
+
+Duración de la sesión agrupada 
+=====================================
+
+Column
+-------------------------------------
+
+### Tabla 6. Frecuencias absolutas y relativas de la duración promedio de la sesión agrupaga - AvgSessionGroup
+
+```{r}
+fre_ab
+
+fre_relativa
+```
+
+### Gráfico 10. Gráfico de barras de la duración promedio de la sesión agrupaga- AvgSessionGroup
+
+```{r} 
+
+plot_ly(df,x=~Duración,y=~Porcentaje,type="bar")
+          
+```
+
+
+Column
+-------------------------------------
+
+### Tabla 7. Estadisticos descriptivos del gasto anual segmentado por duración promedio de la sesión
+
+```{r} 
+
+group_by(ecommerce, AvgSessionGroup)%>%
+summarise(media   = mean(Yearly_Amount_Spent),
+          mediana = median(Yearly_Amount_Spent), 
+          Desv.estandar = sd(Yearly_Amount_Spent), 
+         )
+```
+
+### Interpretación
+
+* La duración promedio de la sesión se concentra en dos grupos [32,33) y [32,34), que          representan el 69.2% de los compradores del e-commerce.(tabla 6, gráfico 10).
+
+* A medida que se pasa del grupo [29,32) al [34, 36.2) hay un mayor gasto anual en compras     segun la media de los grupos. Es decir que a medida que se incrementa la duración de la      sesión agrupada se incrementa el gasto anual (tabla 7).
+
+  En la misma tabla se observa que el grupo [34, 36.2) tiene una mayor dispersión de los       gastos anuales de los compradores, teniendo en cuenta que su desviación estándar (82.1)      respecto a la media (545 dólares) es mayor que en los demás grupos.
+
+
+Boxplot duración vs gasto anual 
+=====================================
+
+Column
+-------------------------------------
+
+### Gráfico 11. Boxplot duración promedio de la sesión agrupada vs gasto anual 
+
+```{r} 
+SessionGroup_Spent <- ggplot(ecommerce, aes(x = AvgSessionGroup, 
+                             y = Yearly_Amount_Spent)) +
+                      geom_boxplot(fill= 'blue' , color = "black",alpha =0.7) +
+                      labs (y = "Yearly Amount Spentr", 
+                            x = "AvgSessionGroup (minutos)",) +
+                      theme_bw () +
+                      theme(legend.position = "none")
+
+ggplotly(SessionGroup_Spent)
+```
+
+Column
+-------------------------------------
+### Interpretación
+
+* Hay una tendencia creciente entre la duración promedio de la sesión y el gasto anual           aunque los boxplot de los grupos se traslapen, lo que indica que si existe asociación        positiva entre estas dos variables pero es moderada (gráfico 11).
+
+
+Correlaciones 
+=====================================
+
+Column
+-------------------------------------
+
+### Matriz de correlaciones 
+
+```{r} 
+var_cuantitativas <- ecommerce[c(4:8)]
+round(cor(var_cuantitativas, method = "pearson"),3)
+```
+
+Column
+-------------------------------------
+
+### Interpretación
+
+* Hay una correlación positiva fuerte (0.809) entre el gasto anual y los años de la            membresía, es decir, que a medida que se incrementa los años de la membresia del comprador   se incrementa el gasto anual.
+
+  Por otra parte, existe una correlacion positiva moderada entre la duración promedio de la    sesión y la duración de la sesión en la app con el gasto anual (0.499 y 0.355                respectivamente ).
+  
+* No existe correlación o asociación lineal entre la duración de la sesión en el sitio web y   el gasto anual (-0.003).
+
+
+Estimadores  
+=====================================
+Column
+-------------------------------------
+
+### Estimadores de mínimos cuadrados
+
+```{r} 
+# Matriz de la variables respuesta
+var_respuesta <- var_cuantitativas$Yearly_Amount_Spent
+matriz_var_respuesta <- data.matrix(var_respuesta)
+
+# Convertir el dataframe de variables independientes en una matriz
+
+#Data con variables independientes
+var_independientes <- var_cuantitativas[c(1:4)]
+
+#En data se incluye la columna de unos 
+var_independientes$colum_unos <- rep(1, 500)
+
+#Se organiza la data
+var_independientes <- var_independientes[c("colum_unos", "Avg_Session_Length",
+                                            "Time_on_App", "Time_on_Website",
+                                           "Length_of_Membership")]
+#Matriz de variables independientes
+matriz_var_independientes <- data.matrix(var_independientes)
+
+#Transpuesta de la matriz de variables independientes
+matriz_t <- t(matriz_var_independientes)
+
+# Multiplicación de la matriz de variables independientes y su transpuesta
+matriz_m <- matriz_t%*%matriz_var_independientes
+
+# Matriz inversa de matriz_m
+matriz_inv <-solve(matriz_m)
+
+# Multiplicación de matriz_t y matriz_var_respuesta
+matriz1<- matriz_t%*%matriz_var_respuesta
+
+# Multiplicación de matriz_inv y matriz1 para obtener los coeficientes de regresión
+matriz_B<- matriz_inv%*%matriz1
+matriz_B
+```
+
+Column
+-------------------------------------
+
+### Interpretación
+
+* Desde el comportamiento bivariado entre los años de la membresía y el gasto anual en el      cual hay una tendencia lineal creciente (gráfico 9), y la correlación fuerte entre esta dos   variables (cor =0.809), era de esperarse que el   estimador o coeficiente de regresión       asociado a la variable años de la membresía, sea la que contribuye en mayor medida a         entender la variabilidad del gasto con un estimador igual   a 61.58.
+
+  Luego sigue la duración de la sesión en la app (estimador = 38.70), por tener una            asociación lineal moderada (0.499), la cual se confirma en el gráfico de dispersión          (gráfico 8).
+  
+  Posteriomente en importancia para predecir el comportamiento del gasto anual, es la          duración promedio de la sesión con un estimador igual a 25.73. Esto obedece a la             observación de cierta tendencia creciente pero no tan marcada (gráfico 6), lo cual se        reafirma en el boxplot (gráfico 11), ya que los boxplot de cada agrupación de la duración    de la sesión promedio con el gasto anual se traslapan pero hay tendencia positiva.           Adicionalmente una correlacion moderada de 0.355.
+  
+
+* La variable que no contribuye a entender la variabilidad del gasto es la duración de la      sesión en el sitio web con un estimador de 0.44. Lo cual se entiende porque su correlación   con el gasto anual es 0.
+
+  
